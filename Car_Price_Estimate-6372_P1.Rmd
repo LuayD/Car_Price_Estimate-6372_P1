@@ -1,0 +1,75 @@
+---
+title: "Car Price Estimate"
+author: "Bradley Robinson, Luay Dajani"
+date: "June 7, 2018"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+```
+
+```{r datafile, echo=FALSE}
+read_chunk('Car_Price_Estimate-Data.R')
+```
+
+## Introduction
+
+Car Estimate Predictions...
+![](images/FCAR_800x400.png)
+
+## Data Description
+
+The data was downloaded from kaggle ... and describes ... for pricing.
+
+``` {r data, echo=FALSE}
+<<dataimport>>
+head(dfm_AutoData)
+```
+
+## Explatory Data Analysis
+
+As per the plots...
+
+Assumptions:
+1- Normality
+2- Variance
+3- Deviation
+
+Data looks ...
+
+## Objetive 1: Regression
+
+QOI: Car Pricing is heaviy impacted by ...
+
+### Regression Model Selections
+
+### Model Comparisons
+
+### Parameter Interpretation
+
+### Conclusions
+
+## Objective 2: Two-Way ANOVW or Time Series
+
+QOI: Goal
+
+### Main Analysis
+
+### Conclusion
+
+## Appendix
+
+### References & Environment {.smaller}
+
+### Code
+
+```{r, code=readLines('Car_Price_Estimate-Data.R'), echo=TRUE}
+```
+
+```{r, code=readLines('Car_Price_Estimate-Regression.R'), echo=TRUE}
+```
+
+```{r, code=readLines('Car_Price_Estimate-Anova.R'), echo=TRUE}
+```

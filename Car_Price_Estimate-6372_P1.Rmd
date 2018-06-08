@@ -30,7 +30,11 @@ head(dfm_AutoData)
 
 ## Explatory Data Analysis
 
-As per the plots...
+As per the plots... Price is an interesting Explanatory Variable as below:
+
+``` {r explore, echo=FALSE}
+<<explore_data_plots>>
+```
 
 Assumptions:
 1- Normality

@@ -1,8 +1,10 @@
 ---
-title: "Car Price Estimate"
+title: "Used Car Price Estimate"
 author: "Bradley Robinson, Luay Dajani"
 date: "June 7, 2018"
-output: word_document
+output: 
+  word_document:
+    reference_docx: ./template/template2.docx
 ---
 
 ```{r setup, include=FALSE}
@@ -14,26 +16,28 @@ library(knitr)
 read_chunk('Car_Price_Estimate-Data.R')
 ```
 
-## Introduction
+# Introduction
 
-Car Estimate Predictions...
-![](images/FCAR_800x400.png)
+![](images/generic_toyota.jpg)
 
-## Data Description
+Buying a car is a major investment and a big deal in society. Buying a new car is generally a great bet in making sure the car is in prime shape, and pristine condition.  Nevertheless, buying a new car generally means incurring a high initial depreciation cost immediately on driving the car out of the dealership. 
 
-The data was downloaded from kaggle ... and describes ... for pricing.
+
+# Data Description
+
+The data was downloaded from kaggle "Used cars database, Over 370,000 used cars scraped from Ebay Kleinanzeigen" at  https://www.kaggle.com/orgesleka/used-cars-database.  These are prices listed for cars and not the final price.  In this case, for cleansing data, only fixed price listings were kept while auctions deleted, especially as some listers will drop the price low and not sell unless the price hits a certain threshhold.  Cleansing details are in a table in the Appendix.
 
 ``` {r data, echo=FALSE}
-<<dataimport>>
-head(dfm_AutoData)
+#<<dataimport>>
+#head(dfm_AutoData)
 ```
 
-## Explatory Data Analysis
+# Exploratory Data Analysis
 
 As per the plots... Price is an interesting Explanatory Variable as below:
 
 ``` {r explore, echo=FALSE}
-<<explore_data_plots>>
+#<<explore_data_plots>>
 ```
 
 Assumptions:
@@ -43,37 +47,64 @@ Assumptions:
 
 Data looks ...
 
-## Objetive 1: Regression
+# Objetive 1: Regression
 
 QOI: Car Pricing is heaviy impacted by ...
 
-### Regression Model Selections
+## Regression Model Selections
 
-### Model Comparisons
+## Model Comparisons
 
-### Parameter Interpretation
+## Parameter Interpretation
 
-### Conclusions
+## Conclusions
 
-## Objective 2: Two-Way ANOVW or Time Series
+# Objective 2: Two-Way ANOVA or Time Series
 
 QOI: Goal
 
-### Main Analysis
+## Main Analysis
 
-### Conclusion
+## Conclusion
 
-## Appendix
+# Appendix
 
-### References & Environment {.smaller}
+## Data Arrtibutes and Cleansing
 
-### Code
+The file was cleansed as follows:
 
-```{r, code=readLines('Car_Price_Estimate-Data.R'), echo=TRUE}
-```
+Attribute | Description | Action
+---|--- |---
+dateCrawled         | when advert was first crawled, all field-values are taken from this date | N/A
+name                | headline, which the owner of the car gave to the advert | N/A
+seller              | 'privat'(ger)/'private'(en) or 'gewerblich'(ger)/'dealer'(en) | Row with invalid value deleted
+offerType           | 'Angebot'(ger)/'offer'(en) or 'Gesuch'(ger)/'request'(en) | Auction style deleted (Gesuch)
+price               | the price on the advert to sell the car | Deleted Any price < 100 or > 99,000,000 as well as all blanks
+abtest              | ebay-intern variable (argumentation in discussion-section) | N/A
+vehicleType         | one of eight vehicle-categories | Nothing, though there were blanks
+yearOfRegistration  | at which year the car was first registered | Deleted anything < 1925 or > 2016
+gearbox             | 'manuell'(ger)/'manual'(en) or 'automatik'(ger)/'automatic'(en) | N/A
+powerPS             | the power of the car in PS | Deleted anything < 30 or > 3000 
+model               | the cars model | N/A (but there are blanks)
+kilometer           | how many kilometres the car has driven | N/A
+monthOfRegistration | at which month the car was first registered | N/A
+fuelType            | one of seven fuel-categories | N/A (but there are blanks)
+brand               | the cars brand
+notRepairedDamage   | if the car has a damage which is not repaired yet | N/A (blanks may be considered no previous damage)
+dateCreated         | the date for which the advert at 'ebay Kleinanzeigen' was created | N/A
+nrOfPictures        | number of pictures in the advert | Attribute deleted
+postalCode          | where in germany the car is located | Attribute deleted
+lastSeenOnline      | when the crawler saw this advert last online | Attribute deleted
 
-```{r, code=readLines('Car_Price_Estimate-Regression.R'), echo=TRUE}
-```
+## References & Environment {.smaller}
 
-```{r, code=readLines('Car_Price_Estimate-Anova.R'), echo=TRUE}
-```
+## Code
+
+#```{r, code=readLines('Car_Price_Estimate-Data.R'), echo=TRUE}
+#```
+
+#```{r, code=readLines('Car_Price_Estimate-Regression.R'), echo=TRUE}
+#```
+
+#```{r, code=readLines('Car_Price_Estimate-Anova.R'), echo=TRUE}
+#```

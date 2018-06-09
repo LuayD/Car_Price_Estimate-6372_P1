@@ -7,7 +7,11 @@
 
 ## @knitr dataimport
 
-dfm_AutoData <- read.csv("data/autos.csv")
+# Read in file
+str_fileName <- "data/autos_clean.csv"
+dfm_AutoData <- read.csv(str_fileName)
+
+dfm_AutoData$vehicleType <- as.character(dfm_AutoData$vehicleType)
 
 # Exploratory Data
 
@@ -15,6 +19,17 @@ dfm_AutoData <- read.csv("data/autos.csv")
 
 # Basic Scatterplot Matrix
 pairs(~log(price)+yearOfRegistration+kilometer, 
+      data = dfm_AutoData,
+      main="Simple Scatterplot Matrix"
+)
+
+# Basic Scatterplot Matrix
+plot(dfm_AutoData$price, dfm_AutoData$vehicleType, 
+      data = dfm_AutoData,
+      main="log(price) vs. vehicleType"
+)
+
+scatter(~log(price)+yearOfRegistration+kilometer, 
       data = dfm_AutoData,
       main="Simple Scatterplot Matrix"
 )

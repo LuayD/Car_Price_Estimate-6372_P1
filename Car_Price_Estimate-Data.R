@@ -33,8 +33,18 @@ dfm_AutoData$vehicleType <- as.character(dfm_AutoData$vehicleType)
 #      col=rgb(0,100,0,50,maxColorValue=255)
 #)
 
+# Basic Scatterplot Matrix
+#pairs(~log(price)+gearbox+powerPS+fuelType+notRepairedDamage, 
+#      data = dfm_AutoData,
+#      main="Scatterplot Matrix w/log price and others",
+#      lower.panel = NULL,
+#      col=rgb(0,100,0,50,maxColorValue=255)
+#)
+
 plot(log(dfm_AutoData$price), dfm_AutoData$kilometer, 
-      main="log(price) vs. km"
+      main="log(price) vs. km",
+      xlab="log(price)",
+      ylab="km"
 )
 
 # Break down of price for Volkswagon golf
@@ -43,8 +53,8 @@ plot(log(dfm_AutoData$price), dfm_AutoData$kilometer,
 dfm_volks <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen",]
 
 plot(log(dfm_volks[,"price"]), dfm_volks[,"kilometer"],
-     main="log(price) vs. km for volks",
-     xlab="price",
+     main="log(price) vs km: volks",
+     xlab="log(price)",
      ylab="km"
 )
 
@@ -52,8 +62,8 @@ plot(log(dfm_volks[,"price"]), dfm_volks[,"kilometer"],
 dfm_volks_golf <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf",]
 
 plot(log(dfm_volks_golf[,"price"]), dfm_volks_golf[,"kilometer"],
-     main="log(price) vs. km for volks golf",
-     xlab="price",
+     main="log(price) vs km: volks golf",
+     xlab="log(price)",
      ylab="km"
 )
 
@@ -63,7 +73,7 @@ dfm_volks_golf_1999 <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm
                                     & dfm_AutoData[,"yearOfRegistration"] == 1999,]
 
 plot(dfm_volks_golf_1999[,"price"], dfm_volks_golf_1999[,"kilometer"],
-     main="price vs. km for volks golf 1999",
+     main="price vs km: volks golf 1999",
      xlab="price",
      ylab="km"
 )
@@ -73,7 +83,7 @@ dfm_volks_golf_1999_smcar <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen"
                                     & dfm_AutoData[,"yearOfRegistration"] == 1999 & dfm_AutoData[,"vehicleType"] == "kleinwagen",]
 
 plot(dfm_volks_golf_1999_smcar[,"price"], dfm_volks_golf_1999_smcar[,"kilometer"],
-     main="price vs. km for volks golf 1999 sm car",
+     main="price vs km: volks golf 99 smcar",
      xlab="price",
      ylab="km"
 )

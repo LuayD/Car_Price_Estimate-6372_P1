@@ -38,35 +38,49 @@ The data was downloaded from kaggle "Used cars database, Over 370,000 used cars 
 
 # Exploratory Data Analysis
 
-As per the plots... Price is an interesting Explanatory Variable as below:
+Using price as the response variable, the available list of other usable attrubutes of interest include: price, cccccccc, yearOfRegistration, gearbox, powerPS, model, kilometer, fuelType, brand, notRepairedDamage.  Other attributes were not deemed significant for the model as follows:
 
-``` {r fig.width=4, fig.height=4, echo=FALSE}
+- DateCrawled and dateCreated indicated the information was generally from 1st half of 2016.
+- Name, seller, abtest, and offerType do not have any logical meaning in this context.
+- monthOfRegistration may or may not have an impact, but logically speacking, when shopping for a used car, people are less interested in this attribute.
+
+Initally looking into the effect of the variables against each other and price, the followign scatter plot basically shows that at least price needs to be logged when comparing to a large selection especially due to the big difference in price differences as a very few cars were extreme outliers in that respect as shown with the following histograms and scatterplots
+
+``` {r fig.width=5, fig.height=5, echo=FALSE}
+<<histogram_plots>>
 img <- readPNG("pre-generated/Rplot01.png")
 grid.raster(img)
 ```
 
-``` {r fig.width=4, fig.height=4, echo=FALSE}
+``` {r fig.width=5, fig.height=5, echo=FALSE}
 img2 <- readPNG("pre-generated/Rplot5.png")
 grid.raster(img2)
-#<<explore_data_plots>>
-#<<histogram_plots>>
 ```
+
+``` {r fig.width=5, fig.height=5, echo=FALSE}
+img2 <- readPNG("pre-generated/Rplot06.png")
+grid.raster(img2)
+```
+
+Though the scatter plot above compares a selection of factors, logically speaking there seems to be very few visual co-dependencies between the other explanatory variables.  Focusing on price as per the below data plots, price with any one explanatory variable does not show any logical trends unless more specific variables are added like brand, model, type, year, and kilometer.
 
 ``` {r fig.width=3, fig.height=3, echo=FALSE}
 <<explore_data_plots>>
-<<histogram_plots>>
 ```
 
-Assumptions:
+In any case, the variables that seem most viable to start off with for a rich model are log(price) = B0(kilometer) +  B1(brand) + B2 (model) + B3(vehicleType) + B4(yearOfRegistration) starting off without the interactions.
+
+Assumptions ???:
 1- Normality
 2- Variance
 3- Deviation
 
-Data looks ...
-
 # Objetive 1: Regression
 
-QOI: Car Pricing is heaviy impacted by ...
+QOI: Car Pricing is heaviy impacted by kilometer, brand, model, vehicleType, and yearOfRegistration.  With our current "RICH" model we want to do a general linear regression initially, then run four different automatic variable selecting techniques including stepwise, LASSO, LARS, and ???.  After Variable selection we want to perform cross validation to ensure the best model.
+
+## Rich model GLM
+
 
 ## Regression Model Selections
 

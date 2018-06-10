@@ -18,21 +18,82 @@ dfm_AutoData$vehicleType <- as.character(dfm_AutoData$vehicleType)
 ## @knitr explore_data_plots
 
 # Basic Scatterplot Matrix
-pairs(~log(price)+yearOfRegistration+kilometer, 
-      data = dfm_AutoData,
-      main="Simple Scatterplot Matrix"
-)
+#pairs(~price+brand+model+yearOfRegistration+kilometer, 
+#      data = dfm_AutoData,
+#      main="Scatterplot Matrix w/log price",
+#      lower.panel = NULL,
+#      col=rgb(0,100,0,50,maxColorValue=255)
+#)
 
 # Basic Scatterplot Matrix
-plot(dfm_AutoData$price, dfm_AutoData$vehicleType, 
-      data = dfm_AutoData,
-      main="log(price) vs. vehicleType"
+#pairs(~log(price)+brand+model+yearOfRegistration+kilometer, 
+#      data = dfm_AutoData,
+#      main="Scatterplot Matrix w/log price",
+#      lower.panel = NULL,
+#      col=rgb(0,100,0,50,maxColorValue=255)
+#)
+
+plot(log(dfm_AutoData$price), dfm_AutoData$kilometer, 
+      main="log(price) vs. km"
 )
 
-scatter(~log(price)+yearOfRegistration+kilometer, 
-      data = dfm_AutoData,
-      main="Simple Scatterplot Matrix"
+# Break down of price for Volkswagon golf
+
+# Scenario 1, price vs. kilometer for volks 
+dfm_volks <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen",]
+
+plot(log(dfm_volks[,"price"]), dfm_volks[,"kilometer"],
+     main="log(price) vs. km for volks",
+     xlab="price",
+     ylab="km"
 )
+
+# Scenario 2, price vs. kilometer for volks golf 
+dfm_volks_golf <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf",]
+
+plot(log(dfm_volks_golf[,"price"]), dfm_volks_golf[,"kilometer"],
+     main="log(price) vs. km for volks golf",
+     xlab="price",
+     ylab="km"
+)
+
+
+# Scenario 3, price vs. kilometer for volks golf 1999
+dfm_volks_golf_1999 <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf" 
+                                    & dfm_AutoData[,"yearOfRegistration"] == 1999,]
+
+plot(dfm_volks_golf_1999[,"price"], dfm_volks_golf_1999[,"kilometer"],
+     main="price vs. km for volks golf 1999",
+     xlab="price",
+     ylab="km"
+)
+
+# Scenario 4, volks golf 1999 small car (kleinwagen)
+dfm_volks_golf_1999_smcar <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf" 
+                                    & dfm_AutoData[,"yearOfRegistration"] == 1999 & dfm_AutoData[,"vehicleType"] == "kleinwagen",]
+
+plot(dfm_volks_golf_1999_smcar[,"price"], dfm_volks_golf_1999_smcar[,"kilometer"],
+     main="price vs. km for volks golf 1999 sm car",
+     xlab="price",
+     ylab="km"
+)
+
+# moving 3d plot of volks golf small car vs. year vs. price
+#dfm_volks_golf_smcar <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf" 
+#                                          & dfm_AutoData[,"vehicleType"] == "kleinwagen",]
+
+#install.packages("rgl")
+#library(rgl)
+#plot3d(log(dfm_volks_golf_smcar[,"price"]), dfm_volks_golf_smcar[,"kilometer"], dfm_volks_golf_smcar[,"yearOfRegistration"], col="red", size=3)
+
+#install.packages("scatterplot3d")
+#library(scatterplot3d)
+#attach(mtcars)
+#scatterplot3d(wt,disp,mpg, main="3D Scatterplot")
+#scatterplot3d(log(dfm_volks_golf_smcar[,"price"]), dfm_volks_golf_smcar[,"kilometer"], dfm_volks_golf_smcar[,"yearOfRegistration"], 
+#              main = "Log Price by Kilometer by Year")
+
+## @knitr histogram_plots
 
 # Histogram of Price
 hist(dfm_AutoData$price, 
@@ -46,13 +107,13 @@ hist(log(dfm_AutoData$price),
      xlab = "log_Price"
      )
 
-# Histogram of Price
+# Histogram of Year
 hist(dfm_AutoData$yearOfRegistration, 
      main = "Histogram of year of registration",
      xlab = "Year"
 )
 
-# Histogram of log(Price)
+# Histogram of log(Year)
 hist(log(dfm_AutoData$yearOfRegistration), 
      main = "Histogram of year of registration (log natural)",
      xlab = "log_Year"

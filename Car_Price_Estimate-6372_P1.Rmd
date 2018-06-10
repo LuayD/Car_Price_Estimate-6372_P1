@@ -9,7 +9,12 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("png")
+
 library(knitr)
+library(png)
+library(grid)
 ```
 
 ```{r datafile, echo=FALSE}
@@ -20,24 +25,36 @@ read_chunk('Car_Price_Estimate-Data.R')
 
 ![](images/generic_toyota.jpg)
 
-Buying a car is a major investment and a big deal in society. Buying a new car is generally a great bet in making sure the car is in prime shape, and pristine condition.  Nevertheless, buying a new car generally means incurring a high initial depreciation cost immediately on driving the car out of the dealership. 
-
+Buying a car is a major investment and a big deal in society. Buying a new car is generally a great bet in making sure the car is in prime shape, and pristine condition.  Nevertheless, buying a new car generally means incurring a high initial depreciation cost immediately on driving the car out of the dealership. In 2016, there were approximatley 59.4 million cars 71% being used cars (*ref 1).  The purpose of this excersise is to explain the eBay Germany market price using available explainatory variables provided, while creating a model that can be used for prediction.
 
 # Data Description
 
 The data was downloaded from kaggle "Used cars database, Over 370,000 used cars scraped from Ebay Kleinanzeigen" at  https://www.kaggle.com/orgesleka/used-cars-database.  These are prices listed for cars and not the final price.  In this case, for cleansing data, only fixed price listings were kept while auctions deleted, especially as some listers will drop the price low and not sell unless the price hits a certain threshhold.  Cleansing details are in a table in the Appendix.
 
 ``` {r data, echo=FALSE}
-#<<dataimport>>
-#head(dfm_AutoData)
+<<dataimport>>
+#head(dfm_AutoData, n = 2)
 ```
 
 # Exploratory Data Analysis
 
 As per the plots... Price is an interesting Explanatory Variable as below:
 
-``` {r explore, echo=FALSE}
+``` {r fig.width=4, fig.height=4, echo=FALSE}
+img <- readPNG("pre-generated/Rplot01.png")
+grid.raster(img)
+```
+
+``` {r fig.width=4, fig.height=4, echo=FALSE}
+img2 <- readPNG("pre-generated/Rplot5.png")
+grid.raster(img2)
 #<<explore_data_plots>>
+#<<histogram_plots>>
+```
+
+``` {r fig.width=3, fig.height=3, echo=FALSE}
+<<explore_data_plots>>
+<<histogram_plots>>
 ```
 
 Assumptions:
@@ -81,7 +98,7 @@ seller              | 'privat'(ger)/'private'(en) or 'gewerblich'(ger)/'dealer'(
 offerType           | 'Angebot'(ger)/'offer'(en) or 'Gesuch'(ger)/'request'(en) | Auction style deleted (Gesuch)
 price               | the price on the advert to sell the car | Deleted Any price < 100 or > 99,000,000 as well as all blanks
 abtest              | ebay-intern variable (argumentation in discussion-section) | N/A
-vehicleType         | one of eight vehicle-categories | Nothing, though there were blanks
+vehicleType         | one of eight vehicle-categories 'andere'/'other', 'bus'/'bus', 'cabrio'/'convertible', 'coupe'/'coupe', 'kleinwagen'/'small car', 'kombi'/'station wagon', 'limousine'/'limousine', 'suv'/'suv' | Nothing, though there were blanks
 yearOfRegistration  | at which year the car was first registered | Deleted anything < 1925 or > 2016
 gearbox             | 'manuell'(ger)/'manual'(en) or 'automatik'(ger)/'automatic'(en) | N/A
 powerPS             | the power of the car in PS | Deleted anything < 30 or > 3000 
@@ -97,6 +114,8 @@ postalCode          | where in germany the car is located | Attribute deleted
 lastSeenOnline      | when the crawler saw this advert last online | Attribute deleted
 
 ## References & Environment {.smaller}
+
+-1: Number of new and used light vehicle sales in the United States from 2010 to 2017 (in millions): https://www.statista.com/statistics/183713/value-of-us-passenger-cas-sales-and-leases-since-1990/
 
 ## Code
 

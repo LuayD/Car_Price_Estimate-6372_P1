@@ -38,19 +38,18 @@ The data was downloaded from kaggle "Used cars database, Over 370,000 used cars 
 
 # Exploratory Data Analysis
 
-Using price as the response variable, the available list of other usable attrubutes of interest include: price, cccccccc, yearOfRegistration, gearbox, powerPS, model, kilometer, fuelType, brand, notRepairedDamage.  Other attributes were not deemed significant for the model as follows:
+Using price as the response variable, the available list of other usable attrubutes of interest include: price, vehicleType, yearOfRegistration, gearbox, powerPS, model, kilometer, fuelType, brand, notRepairedDamage.  Other attributes were not deemed significant for the model as follows:
 
 - DateCrawled and dateCreated indicated the information was generally from 1st half of 2016.
 - Name, seller, abtest, and offerType do not have any logical meaning in this context.
 - monthOfRegistration may or may not have an impact, but logically speacking, when shopping for a used car, people are less interested in this attribute.
 
-Initally looking into the effect of the variables against each other and price, the followign scatter plot basically shows that at least price needs to be logged when comparing to a large selection especially due to the big difference in price differences as a very few cars were extreme outliers in that respect as shown with the following histograms and scatterplots
-
-``` {r fig.width=5, fig.height=5, echo=FALSE}
+Initally looking into the effect of the variables against each other and price, the following scatter plot basically shows that at least price needs to be logged when comparing to a large selection especially due to the big difference in price differences as a very few cars were extreme outliers in that respect as shown with the following histograms:
+``` {r fig.width=3, fig.height=2, echo=FALSE}
 <<histogram_plots>>
-img <- readPNG("pre-generated/Rplot01.png")
-grid.raster(img)
 ```
+
+It is clear that logging price will give the best representation of the price, but it does show a huge discrepency between pricing, and a lot of outliers.
 
 ``` {r fig.width=5, fig.height=5, echo=FALSE}
 img2 <- readPNG("pre-generated/Rplot5.png")
@@ -68,18 +67,14 @@ Though the scatter plot above compares a selection of factors, logically speakin
 <<explore_data_plots>>
 ```
 
-In any case, the variables that seem most viable to start off with for a rich model are log(price) = B0(kilometer) +  B1(brand) + B2 (model) + B3(vehicleType) + B4(yearOfRegistration) starting off without the interactions.
-
-Assumptions ???:
-1- Normality
-2- Variance
-3- Deviation
+In any case, the variables that seem most viable to start off with for a rich model are log(price) = B0(kilometer) +  B1(brand) + B2 (model) + B3(vehicleType) + B4(yearOfRegistration) + B5(PowerPS) +B6(fuelType) starting off without the interactions.
 
 # Objetive 1: Regression
 
 QOI: Car Pricing is heaviy impacted by kilometer, brand, model, vehicleType, and yearOfRegistration.  With our current "RICH" model we want to do a general linear regression initially, then run four different automatic variable selecting techniques including stepwise, LASSO, LARS, and ???.  After Variable selection we want to perform cross validation to ensure the best model.
 
 ## Rich model GLM
+
 
 
 ## Regression Model Selections

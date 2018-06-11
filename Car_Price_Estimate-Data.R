@@ -107,33 +107,72 @@ plot(dfm_volks_golf_1999_smcar[,"price"], dfm_volks_golf_1999_smcar[,"kilometer"
 
 # Histogram of Price
 hist(dfm_AutoData$price, 
-     main = "Histogram of Price",
+     main = "Hist: Price",
      xlab = "Price"
 )
 
 # Histogram of log(Price)
 hist(log(dfm_AutoData$price), 
-     main = "Histogram of Price (log natural)",
+     main = "Hist: log(Price)",
      xlab = "log_Price"
      )
 
 # Histogram of Year
 hist(dfm_AutoData$yearOfRegistration, 
-     main = "Histogram of year of registration",
+     main = "Hist: YearOfReg",
      xlab = "Year"
 )
 
 # Histogram of log(Year)
 hist(log(dfm_AutoData$yearOfRegistration), 
-     main = "Histogram of year of registration (log natural)",
+     main = "Hist: log(YearOfReg)",
      xlab = "log_Year"
 )
 
 # Histogram of KM
 hist(dfm_AutoData$kilometer, 
-     main = "Histogram of KM",
+     main = "Hist: KM",
      xlab = "KM"
 )
+
+## @knitr correlation_data
+# correlation
+
+length(dfm_AutoData)
+
+names(dfm_AutoData)
+
+dfm_correlation = data.frame();
+
+int_i = 7
+for (temp in dfm_AutoData) {
+  int_i <- int_i + 1
+  print(names(dfm_AutoData[int_i]))
+  tryCatch(
+  dfm_correlation[int_1] <- cor.test(dfm_AutoData[,"price"], dfm_AutoData[,int_t]),
+  error = function(e) e
+#  finally = print("error")
+  )
+
+}
+print(int_i)
+
+dfm_correlation = data.frame();
+mtx_correlation = matrix();
+
+xyz <- lapply(dfm_AutoData, cor.test)
+
+cor.mat(dfm_AutoData)
+
+x <- cor.test(dfm_AutoData$price,dfm_AutoData$kilometer)
+
+#cor.test(dfm_AutoData$price,c$)
+#cor.test(dfm_AutoData$price,dfm_AutoData$)
+#cor.test(dfm_AutoData$price,dfm_AutoData$)
+#cor.test(dfm_AutoData$price,dfm_AutoData$)
+#cor.test(dfm_AutoData$price,dfm_AutoData$)
+#cor.test(dfm_AutoData$price,dfm_AutoData$)
+#cor.test(dfm_AutoData$price,dfm_AutoData$)
 
 
 

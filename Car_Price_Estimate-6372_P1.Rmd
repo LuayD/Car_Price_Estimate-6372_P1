@@ -10,11 +10,15 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-#install.packages("png")
+require("png")
+require("knitr")
+require("grid")
+require("leaps")
 
 library(knitr)
 library(png)
 library(grid)
+library(leaps)
 ```
 
 ```{r datafile, echo=FALSE}
@@ -69,30 +73,46 @@ As an observation, due to the fact that car prices can vary widely due to brand 
 ```
 As per the analysis, the variables that seem most viable to start off with for a rich model are log(price) = B0(kilometer) +  B1(brand) + B2 (model) + B3(vehicleType) + B4(yearOfRegistration) + B5(PowerPS) +B6(fuelType) starting off without the interactions.
 
-# Objetive 1: Regression
+# Objective 1: Regression
 
 QOI: Car Pricing is heaviy impacted by kilometer, brand, model, vehicleType, and yearOfRegistration.  With our current "RICH" model we want to do a general linear regression initially, then run four different automatic variable selecting techniques including stepwise, forward, & LASSO.  After Variable selection we want to perform cross validation to ensure the best model.  Below is a look at the model plots:
 
-## Rich model Regression
-
-This is the initial "rich" Fit model without auto variable selection:
-
-``` {r fig.width=3, fig.height=3, echo=FALSE}
-<<reg_setup_richfit>>
-```
-
 ## Regression Model Selections
 
-### Stepwise Regression
+### Simple Fits Regression
 
-``` {r fig.width=3, fig.height=3, echo=FALSE}
+First are just some quick and easy simple fit models of price and one or more explanatory variables:
+
+``` {r}
+<<reg_setup>>
+<<reg_simplefits>>
+```
+### Rich Model Regression
+
+This is the initial "rich" Fit model without auto variable selectiob for he variable seleciton: log(price) = B0(kilometer) +  B1(brand) + B2 (model) + B3(vehicleType) + B4(yearOfRegistration) + B5(PowerPS) +B6(fuelType):
+
+``` {r fig.width=5, fig.height=5, echo=FALSE}
+<<reg_richfit>>
+```
+
+### Stepwise on Rich Model Regression
+
+``` {r fig.width=5, fig.height=5, echo=FALSE}
 <<reg_stepwise>>
 ```
 
-### Forward Regression
+### Complex Model Regression
 
-``` {r fig.width=3, fig.height=3, echo=FALSE}
-<<reg_forward>>
+In this case there is an extra interaction with kilometer with the other explanatory variabes (log(price)~kilometer + brand + model + vehicleType + yearOfRegistration + powerPS + fuelType + kilometer:brand + kilometer:model + kilometer:vehicleType + kilometer:yearOfRegistration + yearOfRegistration:vehicleType):
+
+``` {r fig.width=5, fig.height=5, echo=FALSE}
+<<reg_complexfit>>
+```
+
+### Stepwise on Complex Model Regression
+
+``` {r fig.width=5, fig.height=5, echo=FALSE}
+<<reg_complex_stepwise>>
 ```
 
 ## Model Comparisons

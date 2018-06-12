@@ -62,7 +62,7 @@ plot(log(dfm_volks[,"price"]), dfm_volks[,"kilometer"],
 dfm_volks_golf <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf",]
 
 plot(log(dfm_volks_golf[,"price"]), dfm_volks_golf[,"kilometer"],
-     main="log(price) vs km: volks golf",
+     main=c("price vs km:", "volks golf"),
      xlab="log(price)",
      ylab="km"
 )
@@ -73,7 +73,7 @@ dfm_volks_golf_1999 <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm
                                     & dfm_AutoData[,"yearOfRegistration"] == 1999,]
 
 plot(dfm_volks_golf_1999[,"price"], dfm_volks_golf_1999[,"kilometer"],
-     main="price vs km: volks golf 1999",
+     main=c("price vs km:", "volks golf 1999"),
      xlab="price",
      ylab="km"
 )
@@ -83,7 +83,7 @@ dfm_volks_golf_1999_smcar <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen"
                                     & dfm_AutoData[,"yearOfRegistration"] == 1999 & dfm_AutoData[,"vehicleType"] == "kleinwagen",]
 
 plot(dfm_volks_golf_1999_smcar[,"price"], dfm_volks_golf_1999_smcar[,"kilometer"],
-     main="price vs km: volks golf 99 smcar",
+     main= c("price/km:", "volks golf 99 smcar"),
      xlab="price",
      ylab="km"
 )

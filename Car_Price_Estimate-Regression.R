@@ -15,7 +15,7 @@ fun_observation_plots <- function (dfm_data, lm_fit, str_fitname){
   # residual plot
   plot(lm_fit$residuals, main = c("Resdiual Plot: ", str_fitname) )
   abline(0,0)
-  # hitogram
+  # histogram
   hist(lm_fit$residuals, main = c("Hist: ", str_fitname) )
   # qqplot
   qqnorm(lm_fit$residuals, main = c("QQ-Plot: ", str_fitname) )
@@ -79,24 +79,30 @@ dfm_test<-dfm_AutoData[-vec_index,]
 ## @knitr reg_simplefits
 
 lm_simplemodel <- lm(log(price)~kilometer, data = dfm_train)
-dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("log(price)~kilometer", lm_simplemodel) )
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~kilometer", lm_simplemodel) )
 
 lm_simplemodel <- lm(log(price)~powerPS, data = dfm_train)
-dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("log(price)~powerPS", lm_simplemodel) )
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~powerPS", lm_simplemodel) )
 
 lm_simplemodel <- lm(log(price)~yearOfRegistration, data = dfm_train)
-dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("log(price)~yearOfRegistration", lm_simplemodel) )
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~year", lm_simplemodel) )
 
 lm_categories_model <- lm(log(price)~kilometer+yearOfRegistration+powerPS, data = dfm_train)
-dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("combined:lprice~km,power&year", lm_categories_model) )
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("combined above:", lm_categories_model) )
 
+## @knitr reg_simplefits_plots
+par(mfrow=c(1,3))
+plot(log(dfm_AutoData$price), dfm_AutoData$kilometer, main="log(price) vs. KM", xlab = "log(price)", ylab = "KM")
+plot(log(dfm_AutoData$price), dfm_AutoData$powerPS, main="log(price) vs. Power", xlab = "log(price)", ylab = "PS")
+plot(log(dfm_AutoData$price), dfm_AutoData$yearOfRegistration, main="log(price) vs. Year Reg", xlab = "log(price)", ylab = "Year")
+par(mfrow=c(1,3))
 
 ## @knitr reg_richfit
 
 lm_fullmodel <- lm(log(price)~kilometer+brand+model+vehicleType+yearOfRegistration+powerPS+fuelType, data = dfm_train)
 
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("Full Model", lm_fullmodel) )
-fun_observation_plots(dfm_AutoData, lm_fullmodel, "Full Model")
+#fun_observation_plots(dfm_AutoData, lm_fullmodel, "Full Model")
 
 ## @knitr reg_stepwise
 
@@ -135,10 +141,7 @@ lm_fullmodel_mlr_for <- regsubsets(log(price)~kilometer+brand+model+vehicleType+
 sum_model <- summary(lm_fullmodel_mlr_for)
 #coef(lm_fullmodel_mlr_for,8)
 
-
-
 #Calculate test MSE
-
 testMSE<-c()
 #note my index is to 8 since that what I set it in regsubsets
 for (i in 1:8){
@@ -149,7 +152,6 @@ for (i in 1:8){
 #plot(1:8,testMSE,type="l",xlab="# of predictors",ylab="test MSE")
 index<-which(testMSE==min(testMSE))
 #points(index,testMSE[index],col="red",pch=10)
-
 
 dfm_model_comparisons <- rbind(dfm_model_comparisons, c("Full Model MLRFOR", sum_model$rsq[length(sum_model$rsq)], sum_model$adjr2[length(sum_model$adjr2)],
                                "N/A", "N/A", testMSE[index])
@@ -163,7 +165,7 @@ lm_complexmodel <- lm(log(price)~kilometer + brand + model + vehicleType + yearO
                  data = dfm_train)
 
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("Complex Model", lm_complexmodel) )
-fun_observation_plots(dfm_AutoData, lm_complexmodel, "Complex Model")
+#fun_observation_plots(dfm_AutoData, lm_complexmodel, "Complex Model")
 
 ## @knitr reg_complex_stepwise
 # Stepwise regression on full model

@@ -101,9 +101,9 @@ grid.raster(img_rich)
 This is the initial "rich" Fit model without auto variable selection for the fit model seleciton: log(price) = B0(kilometer) +  B1(brand) + B2 (model) + B3(vehicleType) + B4(yearOfRegistration) + B5(PowerPS) + B6(fuelType):
 
 ``` {r richfit, echo=FALSE}
-#<<reg_richfit>>
-#img_rich <- readPNG("pre-generated/rich_fit_plots.png")
-#grid.raster(img_rich)
+<<reg_richfit>>
+img_rich <- readPNG("pre-generated/rich_fit_plots.png")
+grid.raster(img_rich)
 ```
 
 As per assumptions:
@@ -114,8 +114,8 @@ As per assumptions:
 ### Stepwise, MLR_FORWARD, and LASSO on Rich Model Regression
 
 ``` {r stepwise, fig.width=5, fig.height=5, echo=FALSE}
-#<<reg_stepwise>>
-#<<reg_richfit_mlrfor>>
+<<reg_stepwise>>
+<<reg_richfit_mlrfor>>
 ```
 
 The stepwise implementation in R results in the same model as the previous Rich Fit model, while the MLR_FOR implementation seems to have something that is worse than rich fit and LASSO does not seem to work at all with the data set.

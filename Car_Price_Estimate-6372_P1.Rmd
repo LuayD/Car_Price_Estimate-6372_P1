@@ -2,13 +2,18 @@
 title: "Used Car Price Estimate"
 author: "Bradley Robinson, Luay Dajani"
 date: "June 7, 2018"
-output: 
+output:
   word_document:
     reference_docx: ./template/template2.docx
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+#install.packages("png")
+#install.packages("leaps")
 
 require("png")
 require("knitr")
@@ -107,9 +112,9 @@ grid.raster(img_rich)
 ```
 
 As per assumptions:
--1- There is no evidence of a viloation of normality.
--2- Though the residual plot is very full due to all of the points, variance does look constant, showing no evidence of any violations.
--3- As per how the data was collected and the type of data, the assumption is that there is no inherent violation of independence.
+####-1- There is no evidence of a viloation of normality.
+####-2- Though the residual plot is very full due to all of the points, variance does look constant, showing no evidence of any violations.
+####-3- As per how the data was collected and the type of data, the assumption is that there is no inherent violation of independence.
 
 ### Stepwise, MLR_FORWARD, and LASSO on Rich Model Regression
 
@@ -118,7 +123,7 @@ As per assumptions:
 <<reg_richfit_mlrfor>>
 ```
 
-The stepwise implementation in R results in the same model as the previous Rich Fit model, while the MLR_FOR implementation seems to have something that is worse than rich fit and LASSO does not seem to work at all with the data set.
+The stepwise implementation in R results in the same model as the previous Rich Fit model, while the MLR_FOR implementation seems to have something that is worse than rich fit and LASSO does not seem to work at all with the data set.  NOTE, though not included, I also ran a forward and backward auto variable selection and came up with the same results.
 
 ### Complex Model Regression
 
@@ -133,7 +138,7 @@ grid.raster(img_complex)
 ### Stepwise on Complex Model Regression
 
 ``` {r complex_stepwise, fig.width=5, fig.height=5, echo=FALSE}
-#<<reg_complex_stepwise>>
+<<reg_complex_stepwise>>
 ```
 
 The implementation in R results in the same model as the previous Complex Fit model.
@@ -145,6 +150,27 @@ print.data.frame(dfm_model_comparisons)
 ```
 
 ## Parameter Interpretation
+
+After comparing models, the "complex model" had the best Adjusted R^2, Lowest AIC, and a good testMSE on the test data.  This one is the best in terms of using prediction.  The complex model's equation is as follows:
+
+$$ log(Price) = \beta_0+\beta_1(brand)+\beta_2(model)+\beta_3(vehicleType)+\beta_4(yearOfRegistration)+\beta_5(powerPs)+\beta_6(fuelType)+\beta_7(kilometer*brand)+\beta_8(kilometer*model)+\beta_9(kilometer*vehicleType)+\beta_10(kilometer*yearOfRegistration)+\beta_11(yearOfRegistration*vehicleType)  $$
+
+Nevertheless, this model is too complex for practical interpretation, so for the purposes of interpretation, the "full model" without interactions is preferable as follows:
+
+$$ log(Price) = \beta_0+\beta_1(brand)+\beta_2(model)+\beta_3(vehicleType)+\beta_4(yearOfRegistration)+\beta_5(powerPs)+\beta_6(fuelType) $$
+### Parameter Estimates
+
+$$ \beta_0 =  $$
+
+
+
+### Estimate Interpretations
+
+This is the y-intercept and KM.  In the case for the 
+
+### Confidence Intervals
+
+
 
 ## Conclusions
 

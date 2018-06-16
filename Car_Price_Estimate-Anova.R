@@ -4,11 +4,11 @@
 ##########
 
 # Import Data File into Data Frame
-autos <- read.csv("data/autos_clean.csv")
+#autos <- read.csv("data/autos_clean.csv")
 
 ## @knitr regression
-autos_cleaned <- autos[autos$fuelType != "",]
-autos_cleaned <- autos_cleaned[autos$gearbox != "",]
+autos_cleaned <- dfm_AutoData[autos$fuelType != "",]
+autos_cleaned <- autos_cleaned[autos_cleaned$gearbox != "",]
 
 ## @knitr model_comparisons
 # We are interested in knowing if there is a difference between groups
@@ -23,7 +23,8 @@ summary(fit)
 # F value. The question is what this might mean. 
 
 # TODO: clean the graph
-boxplot(price ~ gearbox, data = autos_cleaned)
+par(las=2) # make y-axis & axis orientation change
+boxplot(price ~ gearbox, data = autos_cleaned, main = "Price vs. Gearbox type")
 # After creating a boxplot of type of gearbox, it appears that there is not an
 # even distribution of the data. Just a few outliers may be affecting the results.
 # So it seems important to check to see if the statistically significant result holds
@@ -33,9 +34,9 @@ fit2 <- aov(logPrice ~ gearbox*fuelType, data = autos_cleaned)
 summary(fit2)
 # The result appears to be more pronounced, rather than less pronounced.
 
-boxplot(logPrice ~ gearbox, data = autos_cleaned)
+boxplot(logPrice ~ gearbox, data = autos_cleaned, main = "log Price vs. Gearbox type")
 # Now for the fuel type:
-boxplot(logPrice ~ fuelType, data = autos_cleaned)
+boxplot(logPrice ~ fuelType, data = autos_cleaned, main = "log Price vs. Fuel Type")
 # These distributions make it appear that there may not be a practically significant
 # difference between different groups. While the median result appears to be different
 # between the groups, the distributions seem to be wide, and in some cases to be 

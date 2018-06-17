@@ -6,11 +6,10 @@
 # Import Data File into Data Frame
 #autos <- read.csv("data/autos_clean.csv")
 
-## @knitr regression
+## @knitr anova_comparisons
 autos_cleaned <- dfm_AutoData[autos$fuelType != "",]
 autos_cleaned <- autos_cleaned[autos_cleaned$gearbox != "",]
 
-## @knitr model_comparisons
 # We are interested in knowing if there is a difference between groups
 # where there is a different gearbox (manual or automatic) and whether
 # the the fuel type makes a difference when it comes to the .
@@ -22,13 +21,15 @@ summary(fit)
 # for fuel type sees a significant difference (p < 0.05) but has a less pronounced 
 # F value. The question is what this might mean. 
 
-# TODO: clean the graph
+## @knitr anova_boxplots
 par(las=2) # make y-axis & axis orientation change
 boxplot(price ~ gearbox, data = autos_cleaned, main = "Price vs. Gearbox type")
 # After creating a boxplot of type of gearbox, it appears that there is not an
 # even distribution of the data. Just a few outliers may be affecting the results.
 # So it seems important to check to see if the statistically significant result holds
 # following a log transformation
+
+## @knitr anova_log
 autos_cleaned$logPrice <- log(autos_cleaned$price)
 fit2 <- aov(logPrice ~ gearbox*fuelType, data = autos_cleaned)
 summary(fit2)

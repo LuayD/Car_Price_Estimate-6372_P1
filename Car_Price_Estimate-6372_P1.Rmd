@@ -250,6 +250,7 @@ In the box plot, there is support for the assumption that each brand has a diffe
 
 
 ## Conclusion
+It appears that price is related to many categorical variables, including brand, gearbox, vehicle type, and fuel type. Each consideration matters when it comes to the price listed on Ebay.
 
 # Appendix
 

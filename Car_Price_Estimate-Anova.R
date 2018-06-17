@@ -4,10 +4,10 @@
 ##########
 
 # Import Data File into Data Frame
-#autos <- read.csv("data/autos_clean.csv")
+dfm_AutoData <- read.csv("data/autos_clean.csv")
 
 ## @knitr anova_comparisons
-autos_cleaned <- dfm_AutoData[autos$fuelType != "",]
+autos_cleaned <- dfm_AutoData[dfm_AutoData$fuelType != "",]
 autos_cleaned <- autos_cleaned[autos_cleaned$gearbox != "",]
 
 # We are interested in knowing if there is a difference between groups
@@ -53,3 +53,4 @@ boxplot(logPrice ~ brand, data = autos_cleaned, main = "log Price vs. Brand",
         col=rainbow(40))
 
 boxplot(logPrice ~ vehicleType, data = autos_cleaned, main = "log Price vs. Vehicle Type", col=rainbow(9))
+

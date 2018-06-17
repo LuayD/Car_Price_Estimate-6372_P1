@@ -22,18 +22,19 @@ summary(fit2)
 
 ## @knitr anova_log_gearbox
 boxplot(logPrice ~ gearbox, data = autos_cleaned, main = "log Price vs. Gearbox type",
-        col=rainbow(3))
+        col=rainbow(2))
 
 ## @knitr anova_log_fueltype
 # Now for the fuel type:
 boxplot(logPrice ~ fuelType, data = autos_cleaned, main = "log Price vs. Fuel Type",
         col=rainbow(7))
-fitBrand <- aov(logPrice ~ brand*fuelType, data = autos_cleaned)
+## @knitr anova_log_brand
+fitBrand <- aov(logPrice ~ brand*vehicleType, data = autos_cleaned)
 summary(fitBrand)
+
+## @knitr anova_box_brand
 par(las=2)
 boxplot(logPrice ~ brand, data = autos_cleaned, main = "log Price vs. Brand",
         col=rainbow(40))
 
 boxplot(logPrice ~ vehicleType, data = autos_cleaned, main = "log Price vs. Vehicle Type", col=rainbow(9))
-
-library(tables)

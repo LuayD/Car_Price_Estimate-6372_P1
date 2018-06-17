@@ -87,9 +87,6 @@ dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_pric
 lm_simplemodel <- lm(log(price)~(yearOfRegistration), data = dfm_train)
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~year", lm_simplemodel) )
 
-lm_simplemodel_yearcent <- lm(log(price)~YearCentered, data = dfm_train)
-dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~yearcent", lm_simplemodel_yearcent) )
-
 lm_categories_model <- lm(log(price)~kilometer+yearOfRegistration+powerPS, data = dfm_train)
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("combined above:", lm_categories_model) )
 

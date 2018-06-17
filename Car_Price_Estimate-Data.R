@@ -17,8 +17,11 @@ dfm_AutoData$vehicleType <- as.character(dfm_AutoData$vehicleType)
 
 ## @knitr explore_data_plots
 
+<<<<<<< HEAD
 par(mfrow=c(2,3))
 
+=======
+>>>>>>> 4d82c1b6e57e75622bfa7ab670f1cf9a2ed7388b
 plot(log(dfm_AutoData$price), dfm_AutoData$kilometer, 
       main="log(price) vs. km",
       xlab="log(price)",
@@ -98,4 +101,38 @@ hist(dfm_AutoData$kilometer,
      main = "Hist: KM",
      xlab = "KM"
 )
+<<<<<<< HEAD
 par(mfrow=c(1,1))
+=======
+par(mfrow=c(1,1))
+## @knitr correlation_data
+# correlation
+
+length(dfm_AutoData)
+
+names(dfm_AutoData)
+
+dfm_correlation = data.frame();
+
+int_i = 7
+for (temp in dfm_AutoData) {
+  int_i <- int_i + 1
+  print(names(dfm_AutoData[int_i]))
+  tryCatch(
+  dfm_correlation[int_1] <- cor.test(dfm_AutoData[,"price"], dfm_AutoData[,int_t]),
+  error = function(e) e
+#  finally = print("error")
+  )
+
+}
+print(int_i)
+
+dfm_correlation = data.frame();
+mtx_correlation = matrix();
+
+xyz <- lapply(dfm_AutoData, cor.test)
+
+cor.mat(dfm_AutoData)
+
+x <- cor.test(dfm_AutoData$price,dfm_AutoData$kilometer)
+>>>>>>> 4d82c1b6e57e75622bfa7ab670f1cf9a2ed7388b

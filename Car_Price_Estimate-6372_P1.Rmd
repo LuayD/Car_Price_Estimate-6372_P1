@@ -14,7 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #install.packages("png")
 #install.packages("leaps")
-
+#install.packages("kable")
+require("kable")
 require("png")
 require("knitr")
 require("grid")
@@ -24,6 +25,7 @@ library(knitr)
 library(png)
 library(grid)
 library(leaps)
+library(kable)
 ```
 
 ```{r datafile, echo=FALSE}
@@ -36,7 +38,9 @@ read_chunk('Car_Price_Estimate-Anova.R')
 
 ![](images/generic_toyota.jpg)
 
-Buying a car is a major investment and a big deal in society. Buying a new car is generally a great bet in making sure the car is in prime shape, and pristine condition.  Nevertheless, buying a new car generally means incurring a high initial depreciation cost immediately on driving the car out of the dealership. In 2016, there were approximatley 59.4 million cars 71% being used cars (*ref 1).  The purpose of this excersise is to explain the eBay Germany market price using available explainatory variables provided, while creating a model that can be used for prediction.
+Buying a car is a major investment and a big deal in society. Buying a new car is generally a great bet in making sure the car is in prime shape, and pristine condition.  Nevertheless, buying a new car generally means incurring a high initial depreciation cost immediately on driving the car out of the dealership. In 2016, there were approximatley 59.4 million cars 71% being used cars (*ref 1).  
+
+## QOI: The purpose of this excersise is to explain the eBay Germany market price using available explainatory variables provided, while creating a model that can be used for prediction. Hypothesis: though there are multiple variables in the eBay dataset, we beleive that the prices can be pedicted accuratly by using the specific varaibes describing: KM, year of registration, power( in PS), brand, model, vehicle type, and fuel type.
 
 # Data Description
 
@@ -135,13 +139,15 @@ img_complex <- readPNG("pre-generated/complex_fit_plots.png")
 grid.raster(img_complex)
 ```
 
-### Stepwise on Complex Model Regression
+### Reduced Model Regression
 
-``` {r complex_stepwise, fig.width=5, fig.height=5, echo=FALSE}
-<<reg_complex_stepwise>>
+For the purpose of easier interpretation, we want to use the following reduced model (log(price)~kilometer + vehicleType + yearOfRegistration + powerPS + fuelType):
+
+``` {r reduced, fig.width=5, fig.height=5, echo=FALSE}
+<<reg_reg_reducedfit>>
+img_complex <- readPNG("pre-generated/Rplot_reduced.png")
+grid.raster(img_complex)
 ```
-
-The implementation in R results in the same model as the previous Complex Fit model.
 
 ## Model Comparisons
 
@@ -153,26 +159,60 @@ print.data.frame(dfm_model_comparisons)
 
 After comparing models, the "complex model" had the best Adjusted R^2, Lowest AIC, and a good testMSE on the test data.  This one is the best in terms of using prediction.  The complex model's equation is as follows:
 
-$$ log(Price) = \beta_0+\beta_1(brand)+\beta_2(model)+\beta_3(vehicleType)+\beta_4(yearOfRegistration)+\beta_5(powerPs)+\beta_6(fuelType)+\beta_7(kilometer*brand)+\beta_8(kilometer*model)+\beta_9(kilometer*vehicleType)+\beta_10(kilometer*yearOfRegistration)+\beta_11(yearOfRegistration*vehicleType)  $$
+$$ log(Price) = \beta_0+\beta_1(kilometer)+\beta_2(brand)+\beta_3(model)+\beta_4(vehicleType)+\beta_5(yearOfRegistration)+\beta_6(powerPs)+\beta_7(fuelType)+\beta_8(kilometer*brand)+\beta_9(kilometer*model)+\beta_10(kilometer*vehicleType)+\beta_11(kilometer*yearOfRegistration)+\beta_12(yearOfRegistration*vehicleType)  $$
 
-Nevertheless, this model is too complex for practical interpretation, so for the purposes of interpretation, the "full model" without interactions is preferable as follows:
+Nevertheless, this model is too complex for practical interpretation, so for the purposes of interpretation, the "reduced model" without interactions for interpretations as follows:
 
-$$ log(Price) = \beta_0+\beta_1(brand)+\beta_2(model)+\beta_3(vehicleType)+\beta_4(yearOfRegistration)+\beta_5(powerPs)+\beta_6(fuelType) $$
+$$ log(Price) = \beta_0+\beta_1(kilometer)+\beta_2(vehicleType)+\beta_3(yearOfRegistration)+\beta_4(powerPs)+\beta_5(fuelType)  $$
+
+``` {r dataframe, echo=FALSE}
+sum_lm_reducedmodel <- summary(lm_reducedmodel)
+mat_temp <- coef(sum_lm_reducedmodel)
+dfm_table <- as.data.frame(mat_temp)
+dfm_table$ci25 <- confint(lm_reducedmodel)[1]
+dfm_table$ci975 <- confint(lm_reducedmodel)[2]
+print.data.frame(dfm_table)
+```
+
+####Intercept: This is the value of the log(sale price) of the car when there are no kilometers, vehicle type is other (andere), year of registration and powerPs are 0, and the fuel type is other (andere).  So the initial intercept when all explanatory variable are 0, is e^(-1.057e+02).  This is impracical in multiple ways including that the intercept is vary small, and other variables like Year Of Registration would not be zero.
+
+The data suggests that each increase of 1 KM is associated with a decrease in the median price a factor of e^-9.258e-06 = 0.9999907 = 0.6. That is, the median y at each value of x is only 0.9999907 of the median y at 1 less unit of x. In other words, a one unit increase in km is associated with a 0.0000093% decrease in median price.
+
+####kilometer: The data suggests that each increase of 1 KM is associated with a decrease in the median price a factor of e^-9.258e-06 = 0.9999907. That is, the median y at each value of x is only 0.9999907 of the median y at 1 less unit of x. In other words, a one unit increase in km is associated with a 0.0000093% decrease in median price.
+
+####Vehicle type: This is a factor representing the type of vehicle.  In this scenario, if all other variables are constant, this would indicate the differences in price from the intercept for the following vehicles types from the base type:
+#####0 Case, this is the case where the fuel type is not listed or blank and is equivalent to the intercept.
+#####andere: (other): e^(8.932e-01) or 2.442935 Euros (basically 0) addition to the intercept
+#####bus: e^(1.052e+00) or 2.863372 Euros (basically 0) addition to the intercept
+#####carbio: e^(1.522e+00) or 4.581379 Euros addition to the intercept
+#####coupe: e^(1.291e+00) or 3.636857 Euros addition to the intercept
+#####kleinwagen: e^(6.245e-01) or 1.867306 Euros addition to the intercept
+#####kombi: e^(8.359e-01) or 2.306967 Euros addition to the intercept
+#####limousine: e^(9.784e-01) or 2.660152 Euros addition to the intercept
+#####suv: e^(1.300e+00) or 3.67005 Euros addition to the intercept
+
+#####Year of Registration: The data suggests that each increase of 1 year, there is an associated incease in the median price a factor of e^(5.647795e-02) or 1.058103
+
+#####powerPS: The data suggests that each increase of 1 PS (German equivalent of Horse Power), there is an associated incease in the median price a factor of e^(The data suggests that each increase of 1 year, there is an associated incease in the median price a factor of e^(5.291870e-03	) or 1.005306
+
+####Fuel type: The type of fuel used but the car.  n this scenario, if all other variables are constant, this would indicate the differences in price from the intercept for the following fuel types from the base type:
+#####fuelTypeandere	e^1.078627e-01 or 1.113895 Euros addition to the intercept
+#####fuelTypebenzin	e^1.303647e-01 or 1.139244 Euros addition to the intercept
+#####fuelTypecng	e^2.695258e-01 or	1.309343 Euros addition to the intercept
+#####fuelTypediesel	e^6.477671e-01 or	1.911268 Euros addition to the intercept
+#####fuelTypeelektro	e^3.551691e-01 or	1.426422 Euros addition to the intercept
+#####fuelTypehybrid	e^6.386692e-01 or	1.893959 Euros addition to the intercept
+#####fuelTypelpg	e^2.099529e-01 or 1.233620 Euros addition to the intercept
+
 ### Parameter Estimates
 
-$$ \beta_0 =  $$
-
-
-
-### Estimate Interpretations
-
-This is the y-intercept and KM.  In the case for the 
-
-### Confidence Intervals
-
-
+``` {r dataframe, echo=FALSE}
+print.data.frame(dfm_model_comparisons)
+```
 
 ## Conclusions
+
+Hypothesis: though there are multiple variables in the eBay dataset, we beleive that the prices can be pedicted accuratly by using the specific varaibes describing: KM, year of registration, power(in PS), brand, model, vehicle type, and fuel type.  As per our models, we were able to predict the price of a car within a certain confidence using the selected variables with an adjusted r^2 of 72% using our complex model.
 
 # Objective 2: Two-Way ANOVA or Time Series
 

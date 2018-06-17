@@ -18,30 +18,6 @@ dfm_AutoData$vehicleType <- as.character(dfm_AutoData$vehicleType)
 ## @knitr explore_data_plots
 par(mfrow=c(2,3))
 
-# Basic Scatterplot Matrix
-#pairs(~price+brand+model+yearOfRegistration+kilometer, 
-#      data = dfm_AutoData,
-#      main="Scatterplot Matrix w/log price",
-#      lower.panel = NULL,
-#      col=rgb(0,100,0,50,maxColorValue=255)
-#)
-
-# Basic Scatterplot Matrix
-#pairs(~log(price)+brand+model+yearOfRegistration+kilometer, 
-#      data = dfm_AutoData,
-#      main="Scatterplot Matrix w/log price",
-#      lower.panel = NULL,
-#      col=rgb(0,100,0,50,maxColorValue=255)
-#)
-
-# Basic Scatterplot Matrix
-#pairs(~log(price)+gearbox+powerPS+fuelType+notRepairedDamage, 
-#      data = dfm_AutoData,
-#      main="Scatterplot Matrix w/log price and others",
-#      lower.panel = NULL,
-#      col=rgb(0,100,0,50,maxColorValue=255)
-#)
-
 plot(log(dfm_AutoData$price), dfm_AutoData$kilometer, 
       main="log(price) vs. km",
       xlab="log(price)",
@@ -89,20 +65,6 @@ plot(dfm_volks_golf_1999_smcar[,"price"], dfm_volks_golf_1999_smcar[,"kilometer"
      ylab="km"
 )
 par(mfrow=c(1,1))
-# moving 3d plot of volks golf small car vs. year vs. price
-#dfm_volks_golf_smcar <- dfm_AutoData[dfm_AutoData[,"brand"] == "volkswagen" & dfm_AutoData[,"model"] == "golf" 
-#                                          & dfm_AutoData[,"vehicleType"] == "kleinwagen",]
-
-#install.packages("rgl")
-#library(rgl)
-#plot3d(log(dfm_volks_golf_smcar[,"price"]), dfm_volks_golf_smcar[,"kilometer"], dfm_volks_golf_smcar[,"yearOfRegistration"], col="red", size=3)
-
-#install.packages("scatterplot3d")
-#library(scatterplot3d)
-#attach(mtcars)
-#scatterplot3d(wt,disp,mpg, main="3D Scatterplot")
-#scatterplot3d(log(dfm_volks_golf_smcar[,"price"]), dfm_volks_golf_smcar[,"kilometer"], dfm_volks_golf_smcar[,"yearOfRegistration"], 
-#              main = "Log Price by Kilometer by Year")
 
 ## @knitr histogram_plots
 par(mfrow=c(2,3))
@@ -166,17 +128,3 @@ xyz <- lapply(dfm_AutoData, cor.test)
 cor.mat(dfm_AutoData)
 
 x <- cor.test(dfm_AutoData$price,dfm_AutoData$kilometer)
-
-#cor.test(dfm_AutoData$price,c$)
-#cor.test(dfm_AutoData$price,dfm_AutoData$)
-#cor.test(dfm_AutoData$price,dfm_AutoData$)
-#cor.test(dfm_AutoData$price,dfm_AutoData$)
-#cor.test(dfm_AutoData$price,dfm_AutoData$)
-#cor.test(dfm_AutoData$price,dfm_AutoData$)
-#cor.test(dfm_AutoData$price,dfm_AutoData$)
-
-
-
-
-
-

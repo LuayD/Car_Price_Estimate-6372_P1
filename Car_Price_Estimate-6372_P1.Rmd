@@ -65,7 +65,7 @@ img_histo <- readPNG("pre-generated/histogram_plots.png")
 grid.raster(img_histo)
 ```
 
-The the scatter plots below compare a selection of factors, logically speaking there seems to be very few visual co-dependencies between the other explanatory variables, but there does show to be an obvious linear trend with price are Kilometer, YearOfRegistration and powerPS, though some of the other may have a correlation also.
+The the scatter plots below compare a selection of factors, logically speaking there seems to be very few visual co-dependencies between the other explanatory variables, but there does show to be an obvious linear trend with price are Kilometer, YearOfRegistration and powerPS, though some of the others may have a correlation also.
 
 ``` {r fig.width=5, fig.height=4, echo=FALSE}
 img2 <- readPNG("pre-generated/Rplot5.png")
@@ -164,6 +164,8 @@ Nevertheless, this model is too complex for practical interpretation, so for the
 
 $$ log(Price) = \beta_0+\beta_1(kilometer)+\beta_2(vehicleType)+\beta_3(yearOfRegistration)+\beta_4(powerPs)+\beta_5(fuelType)  $$
 
+Coefficients for the Reduced model are as below:
+
 ``` {r datatable, echo=FALSE}
 sum_lm_reducedmodel <- summary(lm_reducedmodel)
 mat_temp <- coef(sum_lm_reducedmodel)
@@ -203,46 +205,13 @@ print.data.frame(dfm_table)
 
 ## Conclusions
 
+Hypothesis: though there are multiple variables in the eBay dataset, we beleive that the prices can be pedicted accuratly by using the specific varaibes describing: KM, year of registration, power(in PS), brand, model, vehicle type, and fuel type.  As per our models, we were able to predict the price of a car within a certain confidence using the selected variables with an adjusted r^2 of 72% using our complex model.
 
-# Objective 2: Two-Way ANOVA
+# Objective 2: Two-Way ANOVA or Time Series
 
 QOI: Goal
 
 ## Main Analysis
-We are interested in a number of questions related to categorical variables. First, whether there is a difference in price for different types of gearbox (manual or automatic) and whether the fuel type has any bearing on price.
-
-```{r anova, echo=FALSE}
-# TODO: separate out the graphs
-<<anova_comparisons>>
-```
-The results indicates that there is indeed a significant difference (p < 0.05) between each group, especially based on type of gear box. Surprisingly, price for fuel type sees a significant difference (p < 0.05) but has a less pronounced F value. The question is what this might mean.
-
-```{r}
-<<anova_boxplots>>
-```
-After creating a boxplot of type of gearbox, it appears that there is not an even distribution of the data. Just a few outliers may be affecting the results. So it seems important to check to see if the statistically significant result holds following a log transformation.
-
-```{r}
-<<anova_log>>
-```
-The result appears to be more pronounced, rather than less pronounced.
-
-```{r}
-<<anova_log_gearbox>>
-```
-
-```{r}
-<<anova_log_fueltype>>
-```
-These distributions make it appear that there may not be a practically significant
-difference between different groups. While the median result appears to be different
-between the groups, the distributions seem to be wide, and in some cases to be 
-significantly skewed.
-
-```{r}
-<<
-```
-
 
 ## Conclusion
 

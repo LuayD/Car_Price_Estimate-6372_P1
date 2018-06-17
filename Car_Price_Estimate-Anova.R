@@ -34,11 +34,21 @@ fit2 <- aov(logPrice ~ gearbox*fuelType, data = autos_cleaned)
 summary(fit2)
 # The result appears to be more pronounced, rather than less pronounced.
 
-boxplot(logPrice ~ gearbox, data = autos_cleaned, main = "log Price vs. Gearbox type")
-# Now for the fuel type:
-boxplot(logPrice ~ fuelType, data = autos_cleaned, main = "log Price vs. Fuel Type")
-# These distributions make it appear that there may not be a practically significant
-# difference between different groups. While the median result appears to be different
-# between the groups, the distributions seem to be wide, and in some cases to be 
-# significantly skewed.
+## @knitr anova_log_gearbox
+boxplot(logPrice ~ gearbox, data = autos_cleaned, main = "log Price vs. Gearbox type",
+        col=rainbow(2))
 
+## @knitr anova_log_fueltype
+# Now for the fuel type:
+boxplot(logPrice ~ fuelType, data = autos_cleaned, main = "log Price vs. Fuel Type",
+        col=rainbow(7))
+## @knitr anova_log_brand
+fitBrand <- aov(logPrice ~ brand*vehicleType, data = autos_cleaned)
+summary(fitBrand)
+
+## @knitr anova_box_brand
+par(las=2)
+boxplot(logPrice ~ brand, data = autos_cleaned, main = "log Price vs. Brand",
+        col=rainbow(40))
+
+boxplot(logPrice ~ vehicleType, data = autos_cleaned, main = "log Price vs. Vehicle Type", col=rainbow(9))

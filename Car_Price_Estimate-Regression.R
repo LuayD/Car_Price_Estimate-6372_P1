@@ -27,7 +27,7 @@ fun_observation_plots <- function (dfm_data, lm_fit, str_fitname){
 }
 
 fun_do_predictions <- function (name, lm_fitmodel){
-  
+
   sum_lm_fitmodel <- summary(lm_fitmodel)
   
   # do the prediction against the training dfm
@@ -84,8 +84,11 @@ dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_pric
 lm_simplemodel <- lm(log(price)~powerPS, data = dfm_train)
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~powerPS", lm_simplemodel) )
 
-lm_simplemodel <- lm(log(price)~yearOfRegistration, data = dfm_train)
+lm_simplemodel <- lm(log(price)~(yearOfRegistration), data = dfm_train)
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~year", lm_simplemodel) )
+
+lm_simplemodel_yearcent <- lm(log(price)~YearCentered, data = dfm_train)
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("l_price~yearcent", lm_simplemodel_yearcent) )
 
 lm_categories_model <- lm(log(price)~kilometer+yearOfRegistration+powerPS, data = dfm_train)
 dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("combined above:", lm_categories_model) )
@@ -157,6 +160,18 @@ dfm_model_comparisons <- rbind(dfm_model_comparisons, c("Full Model MLRFOR", sum
                                "N/A", "N/A", testMSE[index])
                                , stringsAsFactors = FALSE)
   
+## @knitr reg_reducedfit
+
+lm_reducedmodel <- lm(log(price)~kilometer+vehicleType+yearOfRegistration+powerPS+fuelType, data = dfm_train)
+
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("Reduced Model", lm_reducedmodel) )
+#fun_observation_plots(dfm_AutoData, lm_reducedmodel, "Reduced Model")
+
+## @knitr reg_reducedfit_step
+
+lm_reducedmodel_step <- step(lm_reducedmodel, direction = "both")
+dfm_model_comparisons <- rbind(dfm_model_comparisons, fun_do_predictions("Step on Reduced Model", lm_complexmodel_step) )
+
 ## @knitr reg_complexfit
 
 lm_complexmodel <- lm(log(price)~kilometer + brand + model + vehicleType + yearOfRegistration + powerPS + fuelType +
